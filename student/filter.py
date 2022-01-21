@@ -30,8 +30,8 @@ class Filter:
         ############
         # TODO Step 1: implement and return system matrix F
         ############
-
-        return 0
+        return np.matrix([[1, 1],
+                        [0, 1]])
         
         ############
         # END student code
@@ -42,7 +42,8 @@ class Filter:
         # TODO Step 1: implement and return process noise covariance Q
         ############
 
-        return 0
+        return np.matrix([[0, 0],
+                        [0, 0]])
         
         ############
         # END student code
