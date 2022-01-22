@@ -28,10 +28,13 @@ class Filter:
 
     def F(self):
         ############
-        # TODO Step 1: implement and return system matrix F
+        # Step 1: implement and return system matrix F
         ############
-        return np.matrix([[1, 1],
-                        [0, 1]])
+        dt = self.dt
+        return np.matrix([[1, 0, dt, 0],
+                        [0, 1, 0, dt],
+                        [0, 0, 1, 0],
+                        [0, 0, 0, 1]])
         
         ############
         # END student code
@@ -39,11 +42,18 @@ class Filter:
 
     def Q(self):
         ############
-        # TODO Step 1: implement and return process noise covariance Q
+        # Step 1: implement and return process noise covariance Q
         ############
 
-        return np.matrix([[0, 0],
-                        [0, 0]])
+        q = self.q
+        dt = self.dt
+        q1 = ((dt**3)/3) * q 
+        q2 = ((dt**2)/2) * q 
+        q3 = dt * q 
+        return np.matrix([[q1, 0, q2, 0],
+                        [0, q1, 0, q2],
+                        [q2, 0, q3, 0],
+                        [0, q2, 0,  q3]])
         
         ############
         # END student code
