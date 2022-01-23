@@ -29,26 +29,37 @@ class Track:
         M_rot = meas.sensor.sens_to_veh[0:3, 0:3] # rotation matrix from sensor to vehicle coordinates
         
         ############
-        # TODO Step 2: initialization:
+        # Step 2: initialization:
         # - replace fixed track initialization values by initialization of x and P based on 
         # unassigned measurement transformed from sensor to vehicle coordinates
         # - initialize track state and track score with appropriate values
         ############
 
-        self.x = np.matrix([[49.53980697],
-                        [ 3.41006279],
-                        [ 0.91790581],
-                        [ 0.        ],
-                        [ 0.        ],
-                        [ 0.        ]])
-        self.P = np.matrix([[9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 6.4e-03, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+01]])
-        self.state = 'confirmed'
-        self.score = 0
+        # transform measurement to vehicle coordinates
+        pos_sens = np.ones((4, 1)) # homogeneous coordinates
+        pos_sens[0:3] = meas.z[0:3] 
+        pos_veh = meas.sens_to_veh*pos_sens
+        
+        # save initial state from measurement
+        self.x = np.zeros((6,1))
+        self.x[0:3] = pos_veh[0:3]
+        
+        # set up position estimation error covariance
+        M_rot = meas.sens_to_veh[0:3, 0:3]
+        P_pos = M_rot * meas.R * np.transpose(M_rot)
+        
+        # set up velocity estimation error covariance
+        sigma_p44 = 50 # initial setting for estimation error covariance P entry for vx
+        sigma_p55 = 50 # initial setting for estimation error covariance P entry for vy
+        sigma_p66 = 5 # initial setting for estimation error covariance P entry for vz
+        P_vel = np.matrix([[sigma_p44**2, 0, 0],
+                        [0, sigma_p55**2, 0],
+                        [0, 0, sigma_p66**2]])
+        
+        # overall covariance initialization
+        self.P = np.zeros((6, 6))
+        self.P[0:3, 0:3] = P_pos
+        self.P[3:6, 3:6] = P_vel
         
         ############
         # END student code
