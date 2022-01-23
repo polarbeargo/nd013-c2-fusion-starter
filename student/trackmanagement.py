@@ -60,6 +60,10 @@ class Track:
         self.P = np.zeros((6, 6))
         self.P[0:3, 0:3] = P_pos
         self.P[3:6, 3:6] = P_vel
+
+        # initialize track state and track score with appropriate values
+        self.state = 'initialized'
+        self.score = 1.0 / params.window
         
         ############
         # END student code
