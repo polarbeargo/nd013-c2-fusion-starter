@@ -33,22 +33,27 @@ class Association:
     def associate(self, track_list, meas_list, KF):
              
         ############
-        # TODO Step 3: association:
+        # Step 3: association:
         # - replace association_matrix with the actual association matrix based on Mahalanobis distance (see below) for all tracks and all measurements
         # - update list of unassigned measurements and unassigned tracks
         ############
+           
+        N = len(track_list) # N tracks
+        M = len(meas_list) # M measurements
+        self.unassigned_tracks = list(range(N))
+        self.unassigned_meas = list(range(M))
         
-        # the following only works for at most one track and one measurement
-        self.association_matrix = np.matrix([]) # reset matrix
-        self.unassigned_tracks = [] # reset lists
-        self.unassigned_meas = []
+        # initialize association matrix
+        self.association_matrix = np.inf*np.ones((N,M)) 
         
-        if len(meas_list) > 0:
-            self.unassigned_meas = [0]
-        if len(track_list) > 0:
-            self.unassigned_tracks = [0]
-        if len(meas_list) > 0 and len(track_list) > 0: 
-            self.association_matrix = np.matrix([[0]])
+        # loop over all tracks and all measurements to set up association matrix
+        for i in range(N): 
+            track = track_list[i]
+            for j in range(M):
+                meas = meas_list[j]
+                dist = self.MHD(track, meas)
+                if self.gating(dist):
+                    self.association_matrix[i,j] = dist
         
         ############
         # END student code
