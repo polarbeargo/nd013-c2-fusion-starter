@@ -61,7 +61,7 @@ class Filter:
 
     def predict(self, track):
         ############
-        # TODO Step 1: predict state x and estimation error covariance P to next timestep, save x and P in track
+        # Step 1: predict state x and estimation error covariance P to next timestep, save x and P in track
         ############
         F = self.F()
         x = F*track.x # state prediction
@@ -75,8 +75,17 @@ class Filter:
 
     def update(self, track, meas):
         ############
-        # TODO Step 1: update state x and covariance P with associated measurement, save x and P in track
+        # Step 1: update state x and covariance P with associated measurement, save x and P in track
         ############
+        H = meas.sensor.get_H(track.x) # measurement matrix
+        gamma = self.gamma(track, meas) # residual
+        S = self.S(track, meas, H) # covariance of residual
+        K = track.P *H.transpose()*np.linalg.inv(S) # Kalman gain
+        x = track.x + K*gamma # state update
+        I = np.identity(self.dim_state)
+        P = (I - K*H) * track.P # covariance update
+        track.set_x(x)
+        track.set_P(P)
         
         ############
         # END student code
