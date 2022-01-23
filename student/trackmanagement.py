@@ -63,7 +63,7 @@ class Track:
 
         # initialize track state and track score with appropriate values
         self.state = 'initialized'
-        self.score = 1.0 / params.window
+        self.score = 1./params.window
         
         ############
         # END student code
@@ -122,9 +122,13 @@ class Trackmanagement:
             if meas_list: # if not empty
                 if meas_list[0].sensor.in_fov(track.x):
                     # your code goes here
-                    pass 
+                     track.score -= 1./params.window
 
-        # delete old tracks   
+        # delete old tracks
+        for track in self.track_list:
+            if track.score <= params.delete_threshold:
+                if track.P[0, 0] >= params.max_P or track.P[1, 1] >= params.max_P:
+                    self.delete_track(track)   
 
         ############
         # END student code
