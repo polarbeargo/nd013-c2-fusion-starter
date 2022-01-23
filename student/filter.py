@@ -94,10 +94,10 @@ class Filter:
     
     def gamma(self, track, meas):
         ############
-        # TODO Step 1: calculate and return residual gamma
+        # Step 1: calculate and return residual gamma
         ############
 
-        return 0
+        return meas.z - meas.sensor.get_hx(track.x)
         
         ############
         # END student code
@@ -105,10 +105,9 @@ class Filter:
 
     def S(self, track, meas, H):
         ############
-        # TODO Step 1: calculate and return covariance of residual S
+        # Step 1: calculate and return covariance of residual S
         ############
-
-        return 0
+        return H*track.P*H.transpose() + meas.R
         
         ############
         # END student code
