@@ -109,10 +109,13 @@ class Association:
         
     def MHD(self, track, meas, KF):
         ############
-        # TODO Step 3: calculate and return Mahalanobis distance
+        # Step 3: calculate and return Mahalanobis distance
         ############
-        
-        pass
+        H = meas.sensor.get_H(track.x)
+        gamma = KF.gamma(track, meas)
+        S = KF.S(track, meas, H)
+        MHD = gamma.transpose()*np.linalg.inv(S)*gamma # Mahalanobis distance formula
+        return MHD
         
         ############
         # END student code
