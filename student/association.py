@@ -98,10 +98,10 @@ class Association:
 
     def gating(self, MHD, sensor): 
         ############
-        # TODO Step 3: return True if measurement lies inside gate, otherwise False
+        # Step 3: return True if measurement lies inside gate, otherwise False
         ############
-        
-        pass    
+        return True if MHD < chi2.ppf(params.gating_threshold, df=2) else False
+           
         
         ############
         # END student code
