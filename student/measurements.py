@@ -135,7 +135,7 @@ class Sensor:
     def generate_measurement(self, num_frame, z, meas_list):
         # generate new measurement from this sensor and add to measurement list
         ############
-        # TODO Step 4: remove restriction to lidar in order to include camera as well
+        # Step 4: remove restriction to lidar in order to include camera as well
         ############
         
         if self.name == 'lidar':
@@ -176,10 +176,15 @@ class Measurement:
         elif sensor.name == 'camera':
             
             ############
-            # TODO Step 4: initialize camera measurement including z and R 
+            # Step 4: initialize camera measurement including z and R 
             ############
-
-            pass
+            self.z = np.zeros((sensor.dim_meas, 1))
+            self.z[0] = z[0]
+            self.z[1] = z[1]
+            self.R = np.matrix([
+                [params.sigma_cam_i**2 , 0],
+                [0, params.sigma_cam_j**2]
+            ])
         
             ############
             # END student code
