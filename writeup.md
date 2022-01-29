@@ -41,6 +41,9 @@
 [image40]: ./img/ID_S4_ex3code.png
 [image41]: ./img/modelBasedDetection.png
 [image42]: ./img/groundtruthLabelsAsObjects.png
+[image43]: ./img/s1.gif
+[image44]: ./img/s2.gif
+[image45]: ./img/s3.gif
 
 
 Please use this starter template to answer the following questions:  
@@ -162,4 +165,22 @@ configs_det.use_labels_as_objects = True
 TP = 306, FP = 0, FN = 0
 precision = 1.0, recall = 1.0  
 ### Summary  
-Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes is fundamental for 3D object detection. Assessing the performance with maximal IOU mapping ,mAP, and use the precision/recall of the bounding boxes are basic to understand the performance  of Lidar based detection.
+Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes is fundamental for 3D object detection. Assessing the performance with maximal IOU mapping ,mAP, and use the precision/recall of the bounding boxes are basic to understand the performance  of Lidar based detection.  
+
+# Sensor Fusion and Object Detection
+
+Please use this starter template to answer the following questions:
+
+### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
+
+
+### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)? 
+
+
+### 3. Which challenges will a sensor fusion system face in real-life scenarios? Did you see any of these challenges in the project?
+
+
+### 4. Can you think of ways to improve your tracking results in the future?  
+![][image43]
+![][image44]
+![][image45]
