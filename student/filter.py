@@ -24,17 +24,21 @@ import misc.params as params
 class Filter:
     '''Kalman filter class'''
     def __init__(self):
-        pass
+        self.dim_state = params.dim_state 
+        self.dt = params.dt 
+        self.q = params.q
+
 
     def F(self):
         ############
         # Step 1: implement and return system matrix F
         ############
-        dt = params.dt
-        return np.matrix([[1, 0, dt, 0],
-                        [0, 1, 0, dt],
-                        [0, 0, 1, 0],
-                        [0, 0, 0, 1]])
+        dt = self.dt
+        F = np.matrix(np.eye(6))
+        F[0, 3] = dt
+        F[1, 4] = dt
+        F[2, 5] = dt
+        return F
         
         ############
         # END student code
@@ -47,13 +51,19 @@ class Filter:
 
         q = self.q
         dt = self.dt
-        q1 = ((dt**3)/3) * q 
-        q2 = ((dt**2)/2) * q 
-        q3 = dt * q 
-        return np.matrix([[q1, 0, q2, 0],
-                        [0, q1, 0, q2],
-                        [q2, 0, q3, 0],
-                        [0, q2, 0,  q3]])
+        q3 = q * dt**3 / 3.0
+        q2 = q * dt**2 / 2.0
+        q1 = q * dt
+
+        return np.matrix([
+            [q3, 0, 0, q2, 0, 0],
+            [0, q3, 0, 0, q2, 0],
+            [0, 0, q3, 0, 0, q2],
+            [q2, 0, 0, q1, 0, 0],
+            [0, q2, 0, 0, q1, 0],
+            [0, 0, q2, 0, 0, q1]
+        ])
+        
         
         ############
         # END student code
