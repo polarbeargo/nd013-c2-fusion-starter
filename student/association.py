@@ -51,8 +51,8 @@ class Association:
             track = track_list[i]
             for j in range(M):
                 meas = meas_list[j]
-                dist = self.MHD(track, meas)
-                if self.gating(dist):
+                dist = self.MHD(track, meas, KF)
+                if self.gating(dist, meas.sensor):
                     self.association_matrix[i,j] = dist
         
         ############
