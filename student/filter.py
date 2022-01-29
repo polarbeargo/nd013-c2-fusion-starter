@@ -30,7 +30,7 @@ class Filter:
         ############
         # Step 1: implement and return system matrix F
         ############
-        dt = self.dt
+        dt = params.dt
         return np.matrix([[1, 0, dt, 0],
                         [0, 1, 0, dt],
                         [0, 0, 1, 0],
