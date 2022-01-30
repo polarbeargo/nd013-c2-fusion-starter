@@ -167,10 +167,14 @@ precision = 1.0, recall = 1.0
 ### Summary  
 Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes is fundamental for 3D object detection. Assessing the performance with maximal IOU mapping ,mAP, and use the precision/recall of the bounding boxes are basic to understand the performance  of Lidar based detection.  
 
-# Sensor Fusion and Object Detection
+# Project: Sensor Fusion and Object Detection
 
-Please use this starter template to answer the following questions:
+![][image43]  
+![][image44]  
+![][image45] 
 
+Please use this starter template to answer the following questions:  
+ 
 ### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?  
  - Filter:  
      - Implemented the predict() function for an EKF. Implement the F() and Q() functions to calculate a system matrix for constant velocity process model in 3D and the corresponding process noise covariance depending on the current timestep dt.  
@@ -207,7 +211,7 @@ Please use this starter template to answer the following questions:
     - In the Measurement class, initialize camera measurement objects including z, R, and the sensor object sensor.  
 
 ### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)? 
-
+- The console output shows lidar updates followed by camera updates. The visualization shows that the tracking performs well, again no confirmed ghost tracks or track losses should occur. The RMSE plot should show at least three confirmed tracks. Two of the tracks should be tracked from beginning to end of the sequence (0s - 200s) without track loss. The mean RMSE for these two tracks should be below 0.25.
 
 ### 3. Which challenges will a sensor fusion system face in real-life scenarios? Did you see any of these challenges in the project?
 
@@ -217,7 +221,5 @@ Please use this starter template to answer the following questions:
 - Implement a more advanced data association such as Global Nearest Neighbor (GNN) or Joint Probabilistic Data Association (JPDA).  
 - Feed camera detections from Project 1 to the tracking.   
 - Adapt the Kalman filter to also estimate the object's width, length, and height, instead of simply using the unfiltered lidar detections as we did.  
-Use a non-linear motion model such as a bicycle model, which is more appropriate for vehicle movement than our linear motion model, since a vehicle can only move forward or backward, not in any direction.  
-![][image43]
-![][image44]
-![][image45]
+- Use a non-linear motion model such as a bicycle model, which is more appropriate for vehicle movement than our linear motion model, since a vehicle can only move forward or backward, not in any direction.  
+
