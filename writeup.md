@@ -44,6 +44,9 @@
 [image43]: ./img/s1.gif
 [image44]: ./img/s2.gif
 [image45]: ./img/s3.gif
+[image46]: ./img/s1.png
+[image47]: ./img/s2.png
+[image48]: ./img/S4.png
 
 
 Please use this starter template to answer the following questions:  
@@ -169,9 +172,17 @@ Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes 
 
 # Project: Sensor Fusion and Object Detection
 
-![][image43]  
-![][image44]  
-![][image45] 
+| Visualization | 
+| ------------- | 
+| ![][image43]  |  
+| ![][image44]  | 
+| ![][image45]  |  
+
+| Plot | 
+| ------------- | 
+| ![][image46]  |  
+|![][image47]   | 
+|![][image48]   | 
 
 Please use this starter template to answer the following questions:  
  
@@ -210,8 +221,8 @@ Please use this starter template to answer the following questions:
     - In the Sensor class, simply remove the restriction to lidar in the function generate_measurement() in order to include camera as well.  
     - In the Measurement class, initialize camera measurement objects including z, R, and the sensor object sensor.  
 
-### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)? 
-- The console output shows lidar updates followed by camera updates. The visualization shows that the tracking performs well, again no confirmed ghost tracks or track losses should occur. The RMSE plot should show at least three confirmed tracks. Two of the tracks should be tracked from beginning to end of the sequence (0s - 200s) without track loss. The mean RMSE for these two tracks should be below 0.25.
+### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)?  
+-  The visualization suppose to show that there are no confirmed “ghost tracks” that do not exist in reality. There may be initialized or tentative “ghost tracks” as long as they are deleted after several frames.  If we still saw some initialized or tentative ghost tracks here, we can deplausibilize them through sensor fusion with camera. With The console output shows lidar updates followed by camera updates. The visualization shows that the tracking performs well, again no confirmed ghost tracks or track losses should occur. The RMSE plot should show at least three confirmed tracks. Two of the tracks should be tracked from beginning to end of the sequence (0s - 200s) without track loss. The mean RMSE for these two tracks should be below 0.25.
 
 ### 3. Which challenges will a sensor fusion system face in real-life scenarios? Did you see any of these challenges in the project?
 
