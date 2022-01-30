@@ -171,8 +171,40 @@ Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes 
 
 Please use this starter template to answer the following questions:
 
-### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
-
+### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?  
+ - Filter:  
+     - Implemented the predict() function for an EKF. Implement the F() and Q() functions to calculate a system matrix for constant velocity process model in 3D and the corresponding process noise covariance depending on the current timestep dt.  
+     - Implement the update() function as well as the gamma() and S() functions for residual and residual covariance.  
+     - At the end of the update step, save the resulting x and P by calling the functions set_x() and set_P() that are already implemented in `student/trackmanagement.py`.   
+ - Track management:   
+    - In the Track class, replace the fixed track initialization values by initialization of track.x and track.P based on the input meas, which is an unassigned lidar measurement object of type Measurement.   
+    - Transform the unassigned measurement from sensor to vehicle coordinates with the sens_to_veh transformation matrix implemented in the Sensor class.      
+    - Initialize the track state with 'initialized' and the score with 1./params.window, where window is the window size parameter, as learned in the track management lesson.   
+    - In the Trackmanagement class, implement the manage_tracks() function to complete the following tasks:  
+      - Decrease the track score for unassigned tracks.  
+      - Delete tracks if the score is too low or P is too big (check params.py for parameters that might be helpful). Note that you can delete tracks by calling the given function delete_track(), which will remove a track from track_list.  
+    - In the Trackmanagement class, implement the handle_updated_track() function to complete the following tasks:  
+       - Increase the track score for the input track.  
+       - Set the track state to 'tentative' or 'confirmed' depending on the track score.  
+       - Use numpy.matrix() for all matrices as learned in the exercises.  
+ - Association:  
+    - In the Association class, implement the associate() function to complete the following tasks:
+       - Replace association_matrix with the actual association matrix based on Mahalanobis distances for all tracks in the input track_list and all measurements in the input meas_list. Use the MHD()function to implement the Mahalanobis distance between a track and a measurement. 
+       - Use the gating() function to check if a measurement lies inside a track's gate. If not, the function shall return False and the entry in association_matrix shall be set to infinity.
+       - Update the list of unassigned measurements unassigned_meas and unassigned tracks unassigned_tracks to include the indices of all measurements and tracks that did not get associated.
+    - In the Association class, implement the get_closest_track_and_meas() function to complete the following tasks:  
+       - Find the minimum entry in association_matrix, delete corresponding row and column from the matrix.
+       - Remove corresponding track and measurement from unassigned_tracks and unassigned_meas. 
+       - Return this association pair between track and measurement. If no more association was found, i.e. the minimum matrix entry is infinity, return numpy.nan for the track and measurement.  
+ - Camera fusion:  
+    - In the Sensor class, implement the function in_fov() that checks if the input state vector x of an object can be seen by this sensor. The function should return True if x lies in the sensor's field of view, otherwise False. Don't forget to transform from vehicle to sensor coordinates first. The sensor's field of view is given in the attribute fov.  
+    - In the Sensor class, implement the function get_hx() with the nonlinear camera measurement function h as follows:  
+      - transform position estimate from vehicle to camera coordinates,  
+      - project from camera to image coordinates,  
+      - make sure to not divide by zero, raise an error if needed,  
+      - return h(x).  
+    - In the Sensor class, simply remove the restriction to lidar in the function generate_measurement() in order to include camera as well.  
+    - In the Measurement class, initialize camera measurement objects including z, R, and the sensor object sensor.  
 
 ### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)? 
 
@@ -181,6 +213,11 @@ Please use this starter template to answer the following questions:
 
 
 ### 4. Can you think of ways to improve your tracking results in the future?  
+- Fine-tune parameterization and see how low an RMSE can be achieve! Apply the standard deviation values for lidar that found in the mid-term project. The parameters in `misc/params.py` should enable a first running tracking, but there is still a lot of room for improvement through parameter tuning.  
+- Implement a more advanced data association such as Global Nearest Neighbor (GNN) or Joint Probabilistic Data Association (JPDA).  
+- Feed camera detections from Project 1 to the tracking.   
+- Adapt the Kalman filter to also estimate the object's width, length, and height, instead of simply using the unfiltered lidar detections as we did.  
+Use a non-linear motion model such as a bicycle model, which is more appropriate for vehicle movement than our linear motion model, since a vehicle can only move forward or backward, not in any direction.  
 ![][image43]
 ![][image44]
 ![][image45]
