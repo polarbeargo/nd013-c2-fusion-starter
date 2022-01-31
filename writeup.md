@@ -178,7 +178,7 @@ Applied resnet/darknet and YOLO to the 3D point cloud and draw bounding boxes 
 | ![][image44]  | 
 | ![][image45]  |  
 
-| Plot | 
+| Plot (step 3, 4 RMSE plot are the same) | 
 | ------------- | 
 | ![][image46]  |  
 |![][image47]   | 
